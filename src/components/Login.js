@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_URL } from "../config"; // import the backend URL
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ function Login() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5005/api/users/login", {
+      const res = await fetch(`${API_URL}/api/users/login`, { // use API_URL
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -25,8 +26,6 @@ function Login() {
         setMessage(data.message || "Login successful");
         setEmail("");
         setPassword("");
-
-        
         localStorage.setItem("token", data.token);
       } else {
         const errorData = await res.json();

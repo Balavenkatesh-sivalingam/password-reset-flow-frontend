@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_URL } from "../config"; // import backend URL
 
 function Register() {
   const [userName, setUserName] = useState("");
@@ -15,13 +16,14 @@ function Register() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5005/api/users/register", {
-        method: "post",
+      const res = await fetch(`${API_URL}/api/users/register`, { // use API_URL
+        method: "POST",
         headers: {
           "Content-type": "application/json",
         },
         body: JSON.stringify(user),
       });
+
       if (res.ok) {
         const data = await res.json();
         setMessage(data.message || "Registration successful");
@@ -29,8 +31,8 @@ function Register() {
         setEmail("");
         setPassword("");
       } else {
-        const error = await res.json();
-        setError("Registration is not successful");
+        const errorData = await res.json();
+        setError(errorData.error || "Registration is not successful");
       }
     } catch (error) {
       setError("Registration failed");

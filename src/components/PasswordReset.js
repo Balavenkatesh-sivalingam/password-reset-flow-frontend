@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { API_URL } from "../config"; // import backend URL
 
 function PasswordReset() {
   const [email, setEmail] = useState("");
@@ -13,7 +14,7 @@ function PasswordReset() {
     setMessage("");
 
     try {
-      const res = await fetch("http://localhost:5005/api/users/passwordReset", {
+      const res = await fetch(`${API_URL}/api/users/passwordReset`, { // use API_URL
         method: "POST",
         headers: {
           "Content-type": "application/json",
@@ -26,8 +27,8 @@ function PasswordReset() {
         setMessage(data.message || "Password reset link sent successfully!");
         setEmail("");
       } else {
-        await res.json();
-        setError("Password reset request failed");
+        const errorData = await res.json();
+        setError(errorData.error || "Password reset request failed");
       }
     } catch (error) {
       setError("Something went wrong, please try again");

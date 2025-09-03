@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_URL } from "../config"; // import backend URL
 
 function ResetPasswordForm() {
   const { token } = useParams(); // extracting token from the URL
@@ -15,7 +16,7 @@ function ResetPasswordForm() {
 
     try {
       const res = await fetch(
-        `http://localhost:5005/api/users/resetPassword/${token}`,
+        `${API_URL}/api/users/resetPassword/${token}`, // use API_URL
         {
           method: "POST",
           headers: { "Content-type": "application/json" },
